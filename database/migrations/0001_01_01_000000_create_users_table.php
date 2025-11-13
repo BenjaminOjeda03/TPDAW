@@ -18,7 +18,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps();$table->string('telefono')->nullable();
+$table->enum('perfil', ['Administrador', 'Gestión', 'Consultas'])->default('Consultas');
+$table->boolean('activo')->default(true); // baja lógica
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -33,7 +36,10 @@ return new class extends Migration
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
-            $table->integer('last_activity')->index();
+            $table->integer('last_activity')->index();$table->string('telefono')->nullable();
+$table->enum('perfil', ['Administrador', 'Gestión', 'Consultas'])->default('Consultas');
+$table->boolean('activo')->default(true); // baja lógica
+
         });
     }
 
