@@ -17,7 +17,7 @@ class VentasController extends Controller
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token
-        ])->get('http://localhost/miapp_jwt/api/ventas');
+        ])->get('http://localhost/miapp_jwt/views/ventas.php');
 
         return $response->json();
     }
