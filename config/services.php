@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'tp1' => [
+        'username' => env('TP1_USERNAME'),
+        'password' => env('TP1_PASSWORD'),
+    ],
+
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

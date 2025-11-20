@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Client;
 
+
 class ClientController extends Controller
 {
     public function index()
@@ -13,6 +14,58 @@ class ClientController extends Controller
         $clientes = Client::all();
         return view('clients.index', compact('clientes'));
     }
+
+
+public function store(Request $request)
+{
+    // Validaciones
+    $request->validate([
+        'nombre' => 'required|string|max:100',
+        'email' => 'required|email|unique:clients,email',
+        'telefono' => 'nullable|string|max:30',
+    ]);
+
+    // Crear cliente
+    Client::create([
+        'nombre' => $request->nombre,
+        'email' => $request->email,
+        'telefono' => $request->telefono,
+    ]);
+
+    return redirect()->route('clients.index')->with('success', 'Cliente creado correctamente.');
+}
+
+
+public function update(Request $request, Client $client)
+{
+    // Validaciones
+    $request->validate([
+        'nombre' => 'required|string|max:100',
+        'email' => 'required|email|unique:clients,email,' . $client->id,
+        'telefono' => 'nullable|string|max:30',
+    ]);
+
+    // Actualizar cliente
+    $client->update([
+        'nombre' => $request->nombre,
+        'email' => $request->email,
+        'telefono' => $request->telefono,
+    ]);
+
+    return redirect()->route('clients.index')->with('success', 'Cliente actualizado correctamente.');
+}
+
+
+public function edit(Client $client)
+{
+    return view('clients.edit', compact('client'));
+}
+
+
+public function create()
+{
+    return view('clients.create');
+}
 
 public function verVentas($id)
 {

@@ -6,14 +6,11 @@ use Illuminate\Support\Facades\Http;
 
 class Tp1ApiService
 {
-    public function login()
-    {
-        $url = env('TP1_LOGIN_URL');
-        $user = env('TP1_USERNAME');
-        $pass = env('TP1_PASSWORD');
+    private $baseUrl = "http://localhost/miapp_jwt/";
 
-        // Tu TP1 recibe POST con username/password normal (not JSON)
-        $response = Http::asForm()->post($url, [
+    public function login($user, $pass)
+    {
+        $response = Http::asForm()->post($this->baseUrl . "api_login.php", [
             'username' => $user,
             'password' => $pass
         ]);
@@ -22,16 +19,16 @@ class Tp1ApiService
             return null;
         }
 
-        return $response->json()['token'] ?? null;
+        $json = $response->json();
+
+        return $json['token'] ?? null;
     }
 
-    public function getVentas($token)
+    public function obtenerVentas($token)
     {
-        $url = env('TP1_VENTAS_URL');
-
         $response = Http::withHeaders([
             'Authorization' => "Bearer $token"
-        ])->get($url);
+        ])->get($this->baseUrl . "api_ventas.php");
 
         if ($response->failed()) {
             return null;
