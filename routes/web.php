@@ -24,3 +24,7 @@ Route::get('/ventas', [VentasController::class, 'index'])->name('ventas.index');
 // CRUD CLIENTES
 Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');  
 Route::get('/clientes', [ClientController::class, 'index'])->name('clientes.index');
+
+//CRUD USER
+Route::resource('users', \App\Http\Controllers\UserController::class);
+Route::resource('/usarios', \App\Http\Controllers\UserController::class);

@@ -15,6 +15,10 @@ class ClientController extends Controller
         return view('clients.index', compact('clientes'));
     }
 
+public function create()
+{
+    return view('clients.create');
+}
 
 public function store(Request $request)
 {
@@ -23,6 +27,8 @@ public function store(Request $request)
         'nombre' => 'required|string|max:100',
         'email' => 'required|email|unique:clients,email',
         'telefono' => 'nullable|string|max:30',
+        'direccion' => 'nullable|string|max:255',
+        
     ]);
 
     // Crear cliente
@@ -30,6 +36,7 @@ public function store(Request $request)
         'nombre' => $request->nombre,
         'email' => $request->email,
         'telefono' => $request->telefono,
+        'direccion' => $request->direccion,
     ]);
 
     return redirect()->route('clients.index')->with('success', 'Cliente creado correctamente.');
@@ -43,6 +50,7 @@ public function update(Request $request, Client $client)
         'nombre' => 'required|string|max:100',
         'email' => 'required|email|unique:clients,email,' . $client->id,
         'telefono' => 'nullable|string|max:30',
+        'direccion' => 'nullable|string|max:255'
     ]);
 
     // Actualizar cliente
@@ -50,6 +58,7 @@ public function update(Request $request, Client $client)
         'nombre' => $request->nombre,
         'email' => $request->email,
         'telefono' => $request->telefono,
+        'direccion' => $request->direccion
     ]);
 
     return redirect()->route('clients.index')->with('success', 'Cliente actualizado correctamente.');
@@ -61,11 +70,6 @@ public function edit(Client $client)
     return view('clients.edit', compact('client'));
 }
 
-
-public function create()
-{
-    return view('clients.create');
-}
 
 public function verVentas($id)
 {
@@ -89,5 +93,13 @@ public function verVentas($id)
     });
 
     return view('clients.ventas', compact('ventas'));
+}
+
+public function destroy(Client $client)
+{
+    $client->delete();
+    return redirect()
+            ->route('clients.index')
+            ->with('success', 'Cliente eliminado correctamente.');
 }
 }

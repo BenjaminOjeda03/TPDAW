@@ -1,3 +1,8 @@
+<?php
+//      HACER QUE ESTE FORMULARIO SIRVA PARA CREAR USUARIOS
+
+?>
+
 @extends('layouts.app')
 
 @section('content')
