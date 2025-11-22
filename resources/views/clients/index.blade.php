@@ -1,6 +1,5 @@
-@extends('layouts.app')
 
-@section('content')
+<x-app-layout>
 <div class="container mt-4">
 
     {{-- Título + botones --}}
@@ -48,38 +47,26 @@
                 </thead>
 
                 <tbody>
-                    @foreach($clientes as $cliente)
-                        <tr>
-                            <td>{{ $cliente->id }}</td>
-                            <td>{{ $cliente->nombre }}</td>
-                            <td>{{ $cliente->email }}</td>
-                            <td>{{ $cliente->telefono }}</td>
+                     @foreach($clients as $client)
+<tr>
+    <td>{{ $client->id }}</td>
+    <td>{{ $client->nombre }}</td>
+    <td>{{ $client->email }}</td>
+    <td>{{ $client->telefono }}</td>
+    <td class="text-center">
+        @if(auth()->user()->perfil === 'Administrador')
+            <a href="{{ route('clients.edit', $client) }}" class="btn btn-warning btn-sm me-2">Editar</a>
 
-                            <td class="text-center">
+            <form action="{{ route('clients.destroy', $client) }}" method="POST" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este cliente?')">Eliminar</button>
+            </form>
+        @endif
+    </td>
+</tr>
+@endforeach
 
-    {{-- Botón Editar --}}
-    <a href="{{ route('clients.edit', $cliente) }}" 
-       class="btn btn-warning btn-sm me-2">
-        Editar
-    </a>
-
-    {{-- Botón Eliminar (con formulario DELETE) --}}
-    <form action="{{ route('clients.destroy', $cliente) }}" 
-          method="POST" 
-          class="d-inline">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger btn-sm"
-                onclick="return confirm('¿Seguro que deseas eliminar este cliente?')">
-            Eliminar
-        </button>
-    </form>
-
-</td>
-
-
-                        </tr>
-                    @endforeach
                 </tbody>
 
             </table>
@@ -87,4 +74,4 @@
     </div>
 
 </div>
-@endsection
+</x-app-layout>

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+
 @section('title','Crear Cliente')
-@section('content')
+<x-app-layout>
 <h3>Nuevo cliente</h3>
 
 <form action="{{ route('clients.store') }}" method="POST">
@@ -26,4 +26,4 @@
     <button class="btn btn-primary">Guardar</button>
     <a href="{{ route('clients.index') }}" class="btn btn-secondary">Volver</a>
 </form>
-@endsection
+</x-app-layout>

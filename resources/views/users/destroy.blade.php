@@ -1,31 +1,28 @@
-<?php
-//      HACER QUE ESTE FORMULARIO SIRVA PARA CREAR USUARIOS
 
-?>
+@section('title', 'Eliminar Usuario')
 
-@extends('layouts.app')
+<x-app-layout>
+<h3>¿Seguro que deseas eliminar este usuario?</h3>
 
-@section('title', 'Eliminar Cliente')
+<p><strong>Nombre:</strong> {{ $user->nombre }}</p>
+<p><strong>Apelldio:</strong> {{ $user->apellido }}</p>
+<p><strong>Username:</strong> {{ $user->username }}</p>
+<p><strong>Email:</strong> {{ $user->email }}</p>
+<p><strong>Teléfono:</strong> {{ $user->telefono }}</p>
+<p><strong>Perfil:</strong> {{ $user->perfil }}</p>
+<p><strong>Password:</strong> {{ $user->password }}</p>
 
-@section('content')
-<h3>¿Seguro que deseas eliminar este cliente?</h3>
-
-<p><strong>Nombre:</strong> {{ $client->nombre }}</p>
-<p><strong>Email:</strong> {{ $client->email }}</p>
-<p><strong>Teléfono:</strong> {{ $client->telefono }}</p>
-<p><strong>Dirección:</strong> {{ $client->direccion }}</p>
-
-<form action="{{ route('clients.destroy', $client->id) }}" method="POST">
+<form action="{{ route('users.destroy', $user->id) }}" method="POST">
     @csrf
     @method('DELETE')
 
     <button class="btn btn-danger"
-        onclick="return confirm('¿Eliminar este cliente definitivamente?')">
+        onclick="return confirm('¿Eliminar este usuario definitivamente?')">
         Sí, eliminar
     </button>
 
-    <a href="{{ route('clients.index') }}" class="btn btn-secondary">
+    <a href="{{ route('users.index') }}" class="btn btn-secondary">
         Cancelar
     </a>
 </form>
-@endsection
+</x-app-layout>

@@ -1,24 +1,14 @@
-<?php
-//      HACER QUE ESTE FORMULARIO SIRVA PARA CREAR USUARIOS
 
-?>
-
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="container mt-4">
 
     {{-- Título + botones --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Listado de Clientes</h2>
+        <h2 class="mb-0">Listado de Usuarios</h2>
 
         <div class="d-flex gap-2">
-            <a href="{{ route('ventas.index') }}" class="btn btn-outline-primary">
-                Ver todas las ventas
-            </a>
-
-            <a href="{{ route('clients.create') }}" class="btn btn-success">
-                + Crear Cliente
+            <a href="{{ route('users.create') }}" class="btn btn-success">
+                + Crear Usuario
             </a>
         </div>
     </div>
@@ -46,36 +36,44 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Username</th>
                         <th>Email</th>
                         <th>Teléfono</th>
+                        <th>Perfil</th>
+                       
                         <th class="text-center">Acciones</th>
+        
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach($clientes as $cliente)
+                    @foreach($users as $user)
                         <tr>
-                            <td>{{ $cliente->id }}</td>
-                            <td>{{ $cliente->nombre }}</td>
-                            <td>{{ $cliente->email }}</td>
-                            <td>{{ $cliente->telefono }}</td>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->nombre }}</td>
+                            <td>{{ $user->apellido }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->telefono }}</td>
+                            <td>{{ $user->perfil}}</td>
 
                             <td class="text-center">
 
     {{-- Botón Editar --}}
-    <a href="{{ route('clients.edit', $cliente) }}" 
+    <a href="{{ route('users.edit', $user) }}" 
        class="btn btn-warning btn-sm me-2">
         Editar
     </a>
 
     {{-- Botón Eliminar (con formulario DELETE) --}}
-    <form action="{{ route('clients.destroy', $cliente) }}" 
+    <form action="{{ route('users.destroy', $user) }}" 
           method="POST" 
           class="d-inline">
         @csrf
         @method('DELETE')
         <button class="btn btn-danger btn-sm"
-                onclick="return confirm('¿Seguro que deseas eliminar este cliente?')">
+                onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">
             Eliminar
         </button>
     </form>
@@ -92,4 +90,4 @@
     </div>
 
 </div>
-@endsection
+</x-app-layout>

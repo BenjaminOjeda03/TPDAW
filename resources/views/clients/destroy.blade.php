@@ -1,8 +1,7 @@
-@extends('layouts.app')
 
 @section('title', 'Eliminar Cliente')
 
-@section('content')
+<x-app-layout>
 <h3>¿Seguro que deseas eliminar este cliente?</h3>
 
 <p><strong>Nombre:</strong> {{ $client->nombre }}</p>
@@ -23,4 +22,4 @@
         Cancelar
     </a>
 </form>
-@endsection
+</x-app-layout>

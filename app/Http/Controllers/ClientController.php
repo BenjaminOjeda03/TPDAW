@@ -11,8 +11,8 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clientes = Client::all();
-        return view('clients.index', compact('clientes'));
+        $clients = Client::all();
+        return view('clients.index', compact('clients'));
     }
 
 public function create()
@@ -45,6 +45,10 @@ public function store(Request $request)
 
 public function update(Request $request, Client $client)
 {
+
+    if (auth()->perfil !== 'Administrador') {
+        return redirect()->route('dashboard')->with('error', 'No tienes permisos para actualizar clientes.');
+    }
     // Validaciones
     $request->validate([
         'nombre' => 'required|string|max:100',
@@ -97,6 +101,9 @@ public function verVentas($id)
 
 public function destroy(Client $client)
 {
+     if (auth()->perfil !== 'Administrador') {
+        return redirect()->route('dashboard')->with('error', 'No tienes permisos para actualizar clientes.');
+    }
     $client->delete();
     return redirect()
             ->route('clients.index')

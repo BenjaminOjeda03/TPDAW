@@ -1,10 +1,11 @@
-@extends('layouts.app')
+
 @section('title','Editar Cliente')
-@section('content')
+<x-app-layout>
 <h3>Editar cliente</h3>
 
 <form action="{{ route('clients.update', $client) }}" method="POST">
-    @csrf @method('PUT')
+    @csrf 
+    @method('PUT')
     <div class="mb-3">
         <label>Nombre</label>
         <input type="text" name="nombre" class="form-control" value="{{ old('nombre', $client->nombre) }}">
@@ -26,4 +27,4 @@
     <button class="btn btn-primary">Actualizar</button>
     <a href="{{ route('clients.index') }}" class="btn btn-secondary">Volver</a>
 </form>
-@endsection
+</x-app-layout>
