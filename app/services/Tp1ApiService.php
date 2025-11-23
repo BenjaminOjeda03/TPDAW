@@ -3,37 +3,54 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\ConnectionException;
 
 class Tp1ApiService
 {
-    private $baseUrl = "http://localhost/miapp_jwt/";
+    private $loginUrl;
+    private $ventasUrl;
+
+    public function __construct()
+    {
+        $this->loginUrl = config('services.tp1.login_url');
+        $this->ventasUrl = config('services.tp1.ventas_url');
+    }
 
     public function login($user, $pass)
     {
-        $response = Http::asForm()->post($this->baseUrl . "api_login.php", [
-            'username' => $user,
-            'password' => $pass
-        ]);
+        try {
+            $response = Http::asForm()->post($this->loginUrl, [
+                'username' => $user,
+                'password' => $pass
+            ]);
 
-        if ($response->failed()) {
-            return null;
+            if ($response->failed()) {
+                return null;
+            }
+
+            $json = $response->json();
+            return $json['token'] ?? null;
+
+        } catch (ConnectionException $e) {
+            return "connection_error";
         }
-
-        $json = $response->json();
-
-        return $json['token'] ?? null;
     }
 
     public function obtenerVentas($token)
     {
-        $response = Http::withHeaders([
-            'Authorization' => "Bearer $token"
-        ])->get($this->baseUrl . "api_ventas.php");
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => "Bearer $token"
+            ])->get($this->ventasUrl);
 
-        if ($response->failed()) {
-            return null;
+            if ($response->failed()) {
+                return null;
+            }
+
+            return $response->json();
+
+        } catch (ConnectionException $e) {
+            return "connection_error";
         }
-
-        return $response->json();
     }
 }

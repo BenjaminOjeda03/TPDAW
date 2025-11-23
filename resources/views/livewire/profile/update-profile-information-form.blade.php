@@ -8,8 +8,8 @@ use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public string $name = '';
-    public string $email = '';
+    public ?string $name = '';
+    public ?string $email = '';
 
     /**
      * Mount the component.

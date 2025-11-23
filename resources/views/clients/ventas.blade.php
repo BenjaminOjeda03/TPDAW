@@ -50,7 +50,7 @@
 
             {{-- Botón volver --}}
             <div class="text-center mt-4">
-                <a href="{{ route('clientes.index') }}" class="btn btn-secondary px-4">
+                <a href="{{ route('clients.index') }}" class="btn btn-secondary px-4">
                     ⬅ Volver
                 </a>
             </div>

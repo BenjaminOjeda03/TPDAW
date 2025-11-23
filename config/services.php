@@ -13,11 +13,12 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
-    'tp1' => [
-        'username' => env('TP1_USERNAME'),
-        'password' => env('TP1_PASSWORD'),
-    ],
+'tp1' => [
+    'login_url'  => env('TP1_LOGIN_URL'),
+    'ventas_url' => env('TP1_VENTAS_URL'),
+    'username'   => env('TP1_USERNAME'),
+    'password'   => env('TP1_PASSWORD'),
+],
 
 
     'postmark' => [

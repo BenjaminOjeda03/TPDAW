@@ -17,10 +17,14 @@ class VentasController extends Controller
 
 public function index(Tp1ApiService $api)
 {
-   $username = config('services.tp1.username');
+    $username = config('services.tp1.username');
     $password = config('services.tp1.password');
 
     $token = $api->login($username, $password);
+
+    if ($token === "connection_error") {
+        return back()->with("error", "❌ No se pudo conectar con la API. Asegurate de que esté encendida.");
+    }
 
     if (!$token) {
         return back()->with("error", "Error al obtener token");
@@ -28,11 +32,16 @@ public function index(Tp1ApiService $api)
 
     $ventas = $api->obtenerVentas($token);
 
+    if ($ventas === "connection_error") {
+        return back()->with("error", "❌ No se pudo conectar con la API de ventas. Asegurate de que esté encendida.");
+    }
+
     if (!$ventas) {
         return back()->with("error", "Error al obtener ventas");
     }
 
     return view("clients.ventas", compact("ventas"));
 }
+
 
 }
