@@ -6,7 +6,9 @@ use App\Http\Controllers\VentasController;
 use App\Http\Controllers\UserController;
 
 Route::view('/', 'welcome');
-
+Route::middleware('auth')->group(function () {
+    Route::resource('users', UserController::class);
+});
 // Rutas protegidas por login
 Route::middleware(['auth', 'verified'])->group(function () {
 

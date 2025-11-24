@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserController extends Controller
 {
-    /**
-     * Listado de usuarios
-     */
+    use AuthorizesRequests;
+
     public function index()
     {
+        $this->authorize('viewAny', User::class);
+
         $users = User::all();
         return view('users.index', compact('users'));
     }
@@ -22,6 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         return view('users.create');
     }
 
@@ -30,6 +33,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', User::class);
+
         $request->validate([
             'nombre'          => 'required|string|max:255',
             'apellido'        => 'required|string|max:255',
@@ -58,21 +63,22 @@ class UserController extends Controller
             ->with('success', 'Usuario creado correctamente.');
     }
 
-
     /**
      * Formulario de edición
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
-
 
     /**
      * Actualizar usuario
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $request->validate([
             'nombre'          => 'required|string|max:255',
             'apellido'        => 'required|string|max:255',
@@ -97,7 +103,6 @@ class UserController extends Controller
             'nombre_usuario.unique' => 'El nombre de usuario ya está en uso.',
         ]);
 
-        // Actualizar
         $user->update([
             'nombre'          => $request->nombre,
             'apellido'        => $request->apellido,
@@ -108,7 +113,6 @@ class UserController extends Controller
             'password'        => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
-        // Si el usuario modificado es el logeado y dejó de ser Admin → redirigir
         if (auth()->user()->id === $user->id && $request->perfil !== 'Administrador') {
             return redirect()
                 ->route('dashboard')
@@ -120,12 +124,13 @@ class UserController extends Controller
             ->with('success', 'Usuario actualizado correctamente.');
     }
 
-
     /**
      * Eliminar usuario
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         $user->delete();
 
         return redirect()

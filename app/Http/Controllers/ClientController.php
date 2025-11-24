@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Client;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class ClientController extends Controller
-{
+{    use AuthorizesRequests;
     public function index()
     {
+        $this->authorize('viewAny', Client::class);
         $clients = Client::all();
         return view('clients.index', compact('clients'));
     }
