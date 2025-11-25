@@ -3,68 +3,72 @@
 @section('title','Editar Cliente')
 
 @section('content')
-<div class="container mt-4">
+<h3>Editar cliente</h3>
 
-    <h3 class="mb-3">Editar cliente</h3>
+<form action="{{ route('clients.update', $client) }}" method="POST">
+    @csrf
+    @method('PUT')
 
-    {{-- Mostrar errores de validación --}}
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    {{-- Nombre --}}
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input id="nombre"
+               type="text"
+               name="nombre"
+               class="form-control @error('nombre') is-invalid @enderror"
+               value="{{ old('nombre', $client->nombre) }}"
+               required
+               maxlength="100">
+        @error('nombre')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-    {{-- Mensajes de éxito / error --}}
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
+    {{-- Email --}}
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input id="email"
+               type="email"
+               name="email"
+               class="form-control @error('email') is-invalid @enderror"
+               value="{{ old('email', $client->email) }}"
+               required>
+        @error('email')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    {{-- Teléfono --}}
+    <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input id="telefono"
+               type="text"
+               name="telefono"
+               class="form-control @error('telefono') is-invalid @enderror"
+               value="{{ old('telefono', $client->telefono) }}"
+               maxlength="30">
+        @error('telefono')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-    <form action="{{ route('clients.update', $client) }}" method="POST">
-        @csrf
-        @method('PUT')
+    {{-- Dirección --}}
+    <div class="mb-3">
+        <label for="direccion" class="form-label">Dirección</label>
+        <input id="direccion"
+               type="text"
+               name="direccion"
+               class="form-control @error('direccion') is-invalid @enderror"
+               value="{{ old('direccion', $client->direccion) }}"
+               maxlength="255">
+        @error('direccion')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text"
-                   name="nombre"
-                   class="form-control"
-                   value="{{ old('nombre', $client->nombre) }}">
-        </div>
+    {{-- Botones --}}
+    <button class="btn btn-primary">Actualizar</button>
+    <a href="{{ route('clients.index') }}" class="btn btn-secondary">Volver</a>
 
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email"
-                   name="email"
-                   class="form-control"
-                   value="{{ old('email', $client->email) }}">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Teléfono</label>
-            <input type="text"
-                   name="telefono"
-                   class="form-control"
-                   value="{{ old('telefono', $client->telefono) }}">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Dirección</label>
-            <input type="text"
-                   name="direccion"
-                   class="form-control"
-                   value="{{ old('direccion', $client->direccion) }}">
-        </div>
-
-        <button class="btn btn-primary">Actualizar</button>
-        <a href="{{ route('clients.index') }}" class="btn btn-secondary">Volver</a>
-    </form>
-</div>
+</form>
 @endsection
